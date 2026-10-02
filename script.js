@@ -79,28 +79,29 @@ function sciApply(fn) {
 
     // For xʸ we need a second argument
     if (fn === 'pow') {
+        if (raw === '') return;                        // nothing entered yet, wait
         const base = parseFloat(raw);
-        if (raw === '' || isNaN(base)) {
-            display.value = 'Error'; return;
-        }
-        const exp = parseFloat(prompt('Enter the exponent (y):'));
-        if (isNaN(exp)) { display.value = 'Error'; return; }
+        if (isNaN(base)) return;
+        const expStr = prompt('Enter the exponent (y):');
+        if (expStr === null) return;                   // user cancelled
+        const exp = parseFloat(expStr);
+        if (isNaN(exp)) return;
         display.value = Math.pow(base, exp);
         saveHistory(`${base} ^ ${exp}`, display.value);
         return;
     }
 
     // All other functions operate on the current value or expression
-    let value;
-    if (raw === '') { display.value = 'Error'; return; }
+    if (raw === '') return;                            // nothing entered yet, wait
 
+    let value;
     try {
         value = eval(raw);   // evaluate any pending expression first
     } catch {
-        display.value = 'Error'; return;
+        return;              // incomplete expression, wait silently
     }
 
-    if (isNaN(value)) { display.value = 'Error'; return; }
+    if (isNaN(value) || value === undefined) return;  // not a valid number yet
 
     const mathFns = {
         sin:   v => Math.sin(v),
