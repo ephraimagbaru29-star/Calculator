@@ -1,8 +1,4 @@
  const display = document.getElementById("display");
-const historyPanel = document.getElementById("history-panel");
-const historyList = document.getElementById("history-list");
-
-let history = [];
 
 // Add a value to the display
 function appendValue(value) {
@@ -26,52 +22,8 @@ function calculate() {
             return;
         }
 
-        const expression = display.value;
-        const result = eval(expression);
-        const entry = `${expression} = ${result}`;
-
-        history.unshift(entry);
-        renderHistory();
-
-        display.value = result;
+        display.value = eval(display.value);
     } catch (error) {
         display.value = "Error";
     }
 }
-
-// Toggle history panel visibility
-function toggleHistory() {
-    const isHidden = historyPanel.classList.toggle("hidden");
-    document.getElementById("history-btn").textContent = isHidden ? "🕘" : "✕";
-}
-
-// Render history entries
-function renderHistory() {
-    historyList.innerHTML = "";
-
-    if (history.length === 0) {
-        historyList.innerHTML = '<li class="no-history">No history yet</li>';
-        return;
-    }
-
-    history.forEach((entry, index) => {
-        const li = document.createElement("li");
-        li.textContent = entry;
-        li.title = "Tap to reuse";
-        // Clicking an entry loads the result back into the display
-        li.addEventListener("click", () => {
-            const result = entry.split(" = ")[1];
-            display.value = result;
-        });
-        historyList.appendChild(li);
-    });
-}
-
-// Clear history
-function clearHistory() {
-    history = [];
-    renderHistory();
-}
-
-// Initialise
-renderHistory();

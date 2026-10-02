@@ -12,19 +12,7 @@
 
     <div class="calculator">
 
-        <div class="display-row">
-            <input type="text" id="display" readonly>
-            <button id="history-btn" class="history-btn" onclick="toggleHistory()" title="History">🕘</button>
-        </div>
-
-        <!-- History panel -->
-        <div id="history-panel" class="history-panel hidden">
-            <div class="history-header">
-                <span>History</span>
-                <button class="clear-history-btn" onclick="clearHistory()">Clear</button>
-            </div>
-            <ul id="history-list"></ul>
-        </div>
+        <input type="text" id="display" readonly>
 
         <div class="buttons">
             <button class="clear" onclick="clearDisplay()">AC</button>
