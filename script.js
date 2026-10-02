@@ -28,11 +28,8 @@ function calculate() {
 
         const expression = display.value;
         const result = eval(expression);
-        const entry = `${expression} = ${result}`;
 
-        history.unshift(entry);
-        renderHistory();
-
+        saveHistory(expression, result);
         display.value = result;
     } catch (error) {
         display.value = "Error";
@@ -69,6 +66,66 @@ function renderHistory() {
 // Clear history
 function clearHistory() {
     history = [];
+    renderHistory();
+}
+
+// Apply a scientific function to the current display value
+function sciApply(fn) {
+    const raw = display.value.trim();
+
+    // Constants — just insert the value
+    if (fn === 'pi') { appendValue(String(Math.PI)); return; }
+    if (fn === 'e')  { appendValue(String(Math.E));  return; }
+
+    // For xʸ we need a second argument
+    if (fn === 'pow') {
+        const base = parseFloat(raw);
+        if (raw === '' || isNaN(base)) {
+            display.value = 'Error'; return;
+        }
+        const exp = parseFloat(prompt('Enter the exponent (y):'));
+        if (isNaN(exp)) { display.value = 'Error'; return; }
+        display.value = Math.pow(base, exp);
+        saveHistory(`${base} ^ ${exp}`, display.value);
+        return;
+    }
+
+    // All other functions operate on the current value or expression
+    let value;
+    if (raw === '') { display.value = 'Error'; return; }
+
+    try {
+        value = eval(raw);   // evaluate any pending expression first
+    } catch {
+        display.value = 'Error'; return;
+    }
+
+    if (isNaN(value)) { display.value = 'Error'; return; }
+
+    const mathFns = {
+        sin:   v => Math.sin(v),
+        cos:   v => Math.cos(v),
+        tan:   v => Math.tan(v),
+        log:   v => Math.log10(v),   // base-10 log (common log)
+        log2:  v => Math.log2(v),
+        sqrt:  v => Math.sqrt(v),
+        cbrt:  v => Math.cbrt(v),
+        abs:   v => Math.abs(v),
+        floor: v => Math.floor(v),
+    };
+
+    const result = mathFns[fn](value);
+    const label  = { sin:'sin', cos:'cos', tan:'tan', log:'log', log2:'log₂',
+                      sqrt:'√', cbrt:'∛', abs:'|x|', floor:'⌊x⌋' }[fn];
+
+    saveHistory(`${label}(${value})`, result);
+    display.value = result;
+}
+
+// Save an entry to history
+function saveHistory(expression, result) {
+    const entry = `${expression} = ${result}`;
+    history.unshift(entry);
     renderHistory();
 }
 
