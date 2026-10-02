@@ -26,6 +26,27 @@
             <ul id="history-list"></ul>
         </div>
 
+        <!-- More / Scientific panel -->
+        <div id="sci-panel" class="sci-panel hidden">
+            <div class="sci-grid">
+                <button class="sci" onclick="appendValue('Math.sin(')">sin</button>
+                <button class="sci" onclick="appendValue('Math.cos(')">cos</button>
+                <button class="sci" onclick="appendValue('Math.tan(')">tan</button>
+                <button class="sci" onclick="appendValue('Math.log(')">log</button>
+                <button class="sci" onclick="appendValue('Math.log2(')">log₂</button>
+                <button class="sci" onclick="appendValue('Math.sqrt(')">√</button>
+                <button class="sci" onclick="appendValue('Math.cbrt(')">∛</button>
+                <button class="sci" onclick="appendValue('Math.pow(')">xʸ</button>
+                <button class="sci" onclick="appendValue('Math.PI')">π</button>
+                <button class="sci" onclick="appendValue('Math.E')">e</button>
+                <button class="sci" onclick="appendValue('Math.abs(')">|x|</button>
+                <button class="sci" onclick="appendValue('Math.floor(')">⌊x⌋</button>
+            </div>
+        </div>
+
+        <!-- More toggle -->
+        <button id="more-btn" class="more-btn" onclick="toggleSci()">more</button>
+
         <div class="buttons">
             <button class="clear" onclick="clearDisplay()">AC</button>
             <button onclick="deleteLast()">DEL</button>

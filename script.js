@@ -72,5 +72,11 @@ function clearHistory() {
     renderHistory();
 }
 
+// Toggle scientific panel
+function toggleSci() {
+    const isHidden = document.getElementById("sci-panel").classList.toggle("hidden");
+    document.getElementById("more-btn").textContent = isHidden ? "more" : "less";
+}
+
 // Initialise
 renderHistory();
